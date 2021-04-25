@@ -1,0 +1,78 @@
+﻿using System;
+
+
+namespace KaheksasTund
+{
+    class Program
+    {
+        /*
+Ülesanne 6
+>>>>>>>>>>
+Eurosendid on väärtuses 1, 2, 5, 10, 20 ja 50. Koostage funktsioon,
+millele antakse argumendina rahasumma (sentides) ja mis trükib välja, kui palju milliseid
+münte peaks selles vääringus andma, et müntide arv oleks väikseim. Näiteks 37 sendi puhul
+1 20-sendine, 1 10-sendine, 1 5-sendine ja 1 2-sendine. Koostage järjend, mille elementideks
+on teisendatavad rahasummad. Koostage programm, mis võtab järjendist elemente ja kutsub
+igaühe korral neist välja ülaltoodud funktsiooni. Probleeme tekitab kindlasti korrektse
+lause koostamine (mida teha, kui mingis vääringus münte ei vajata? mida teha ainsuse ja mitmusega?).
+Püüdke leida parim võimalik lahendus.
+*/
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Raha jagaja");
+
+            const int yks = 1, kaks = 2, viis = 5, kymme = 10, kakskymmend = 20, viiskymmend = 50;//sentidele antakse tekstilised väärtused
+
+            Console.WriteLine("Sisesta jagatava sentide v''ring: ");//konsooli kuvatav tekst
+            // esimene variant
+            int vahesumma = int.Parse(Console.ReadLine());//kasutaja sisestatud rahasumma konverteeritakse int tüüpi väärtuseks
+            //teine variant
+            //int vahesumma = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Vajuta nr 1 ja enter");//konsooli kuvatav tekst
+            int vajalike_sentide_arv = 0;//esialgu on sentide arv 0
+            string summa = Console.ReadLine();//summa väärtuseks määratakse 1
+
+            switch (summa)//summa on 1 ja selle järgi võtab case 1
+            {
+                case "1":
+
+                    vajalike_sentide_arv = vahesumma / viiskymmend;//kasutaja sisestatud summa jagatakse 50-ga
+                    Console.WriteLine("50-sendised: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 50-st, on 50 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 50 mahub vahesumma sisse.
+                    vahesumma = vahesumma - vajalike_sentide_arv * viiskymmend;//vahesummast saadakse jääkväärtus
+                    vajalike_sentide_arv = vahesumma / kakskymmend;//jääkväärtus jagatakse 20-ga
+                    Console.WriteLine("20-sendised: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 20-st, on 20 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 20 mahub vahesumma sisse.
+
+                    vahesumma = vahesumma - vajalike_sentide_arv * kakskymmend;//vahesummast saadakse jääkväärtus
+                    vajalike_sentide_arv = vahesumma / kymme;//jääkväärtus jagatakse 10-ga
+                    Console.WriteLine("10-sendiseid: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 10-st, on 10 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 10 mahub vahesumma sisse.
+
+                    vahesumma = vahesumma - vajalike_sentide_arv * kymme;//vahesummast saadakse jääkväärtus
+                    vajalike_sentide_arv = vahesumma / viis;//jääkväärtus jagatakse 5-ga
+                    Console.WriteLine(" 5-sendiseid: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 5-st, on 5 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 5 mahub vahesumma sisse.
+
+
+                    vahesumma = vahesumma - vajalike_sentide_arv * viis;//vahesummast saadakse jääkväärtus
+                    vajalike_sentide_arv = vahesumma / kaks;//jääkväärtus jagatakse 2-ga
+                    Console.WriteLine(" 2-sendiseid: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 2-st, on 2 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 2 mahub vahesumma sisse.
+
+                    vahesumma = vahesumma - vajalike_sentide_arv * kaks;//vahesummast saadakse jääkväärtus
+                    vajalike_sentide_arv = vahesumma / yks;//jääkväärtus jagatakse 1-ga
+                    Console.WriteLine(" 1-sendiseid: " + vajalike_sentide_arv + " tk");//kui vahesumma on väiksem 1-st, on 1 sendiste arv 0
+                    //kui suurem, siis kuvatakse nende kogus, mitu korda 1 mahub vahesumma sisse.
+
+                    break;//lõpetab tsükli
+                default://kui kasutaja ei vali 1 ja enter või ei tee valikut
+                    Console.WriteLine("\nVale. Valikut ei tehtud");//konsooli kuvatav tekst
+                    break;//lõpetab
+            }
+
+        }
+    }
+}

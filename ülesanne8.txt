@@ -1,0 +1,68 @@
+﻿using System;
+using System.IO;  // selle peab panema, kui tahad kasutada Streamreader ja StreamWrite kasutada.
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication9
+{
+    /*
+        Ülesanne 8
+    >>>>>>>>>>
+    Tee uus fail luuletus.txt ning lisa sinna järgmine luuletus:
+
+    Hommikul kui üles ärkan,
+    arvutit ma laual märkan.
+    Padja, teki viskan maha,
+    jooksen ruttu compu taha.
+    Kiirelt sisestan parooli,
+    kuid juba tuleb minna kooli.
+    Error tuleb ette siis,
+    kool on mulle räme piin.
+
+
+    Koosta programm, mis kuvab ekraanile luuletuse read, kuid lisab nende ette rea järjekorranumbri ja iga rea järele sulgudesse reas
+    asuvate sümbolite arvu e. rea pikkuse.
+    */
+
+    class Program
+    {
+        static void faililugeine() // kuubi funktsiooni lugemine
+        {
+            string line; // sõna muutuja deklareerimine
+            try
+            {
+                using (StreamReader sr = new StreamReader("C:/Users/krist/Desktop/luuletus.txt"))//loeb faili
+                {
+                    int cnt = 0; // rea nr muutuja
+                    while (sr.EndOfStream == false) // tsükkel, mis kontrollib kuni viimase näitajani
+                    {
+                        ++cnt; //rea nr suurendamine 1 ühiku võrra
+                        line = sr.ReadLine(); //sõne lugemine txt failist
+                        int pikkus = line.Length; // sõna lugemine kui sõne pikkusena
+                        Console.WriteLine(cnt + " " + line + " " + pikkus); // kogu info edastamine kasutajale
+                    }
+                    sr.Close(); // faili lugemise sulgemine
+                }
+            }
+            catch (Exception e)//veateade
+            {
+                Console.WriteLine("Faili ei saa lugeda.");//veateade
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
+            //faili operatsioon
+            Console.Title = "Faili operatsioon"; //aknale nime saamine
+            faililugeine();
+
+            Console.ReadKey(); //pausile jätmine
+        }
+
+    }
+}
+

@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+namespace Sonad
+{
+    /*
+    yl 11
+    Ristsõnade lahendamine on sageli keeruline: teame küll sõna pikkust ja mõnd tähte,
+    kuid tervet sõna ära arvata ei oska. Loo programm, mis abistaks ristsõna lahendajat:
+    kasutajalt küsitakse sõna pikkust ning esimest ja viimast tähte ning väljastatakse sõnastikus
+    olevad kõikvõimalikud sellised sõnad. Sõnastiku (algvormide e. lemmade loendi) võid leida näiteks siit:
+    http://www.eki.ee/tarkvara/wordlist/. Panen faili lemmad õppematerjalide alla.
+    Arendusvõimalusi:
+    Kasutaja võib ette anda pikema sõna alguse ja lõpu.
+    Küsida võib keerulisemaid mustreid, näiteks küsimus stiilis "k-s-" otsib kõiki neljatähelisi sõnu,
+    mille esimene täht on "k", kolmas täht "s" (näiteks "kass", "kask", "kast", "kest", "kosk" jne).
+     */
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Sisesta otsitav sõna:");//konsooli kuvatav tekst
+            Console.WriteLine("Kasuta formaati 's--a', kus - tähistab tundmatud tähte.");
+
+            String valik = Console.ReadLine();//valikuks määratakse kasutaja sisestatud väärtus
+
+            FailiAvamine(valik);      //kutsutakse esile faili avamise meetod ja antakse sisendväärtuseks kasutaja sisestatud väärtus                          // alamprogrammi poole pöördumine
+        }
+
+        private static void FailiAvamine(String valik)          // alamprogramm
+        {
+            Regex regulaaravaldis = new Regex(@"\b" + valik.Replace("-", "\\w"), RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            //kriipsud asendatakse sümbolitega
+            try
+            {
+                using (StreamReader sr = new StreamReader("C:/Users/krist/Desktop/lemmad.txt", Encoding.Default))//loeb failist lemmad.txt
+                {
+                    while (sr.EndOfStream == false) // tsükkel, mis kontrollib kuni viimase näitajani
+                    {
+                        String line = sr.ReadLine(); //sõne lugemine txt failist
+
+                        if (line.Length == valik.Length)// sõnapikkus =kasutaja sisestatud sõnapikkusega
+                        {
+                            MatchCollection matches = regulaaravaldis.Matches(line);//teeb kollektsiooni sobiva pikkuse ja
+                                                                                    //tähekombinatsioonidega (algus ja lõpp tähed) sõnadest
+
+                            if (matches.Count > 0)//kui vastete arv on suurem kui 0
+                            {
+                                Console.WriteLine(line);//kuva need vasted
+                            }
+                        }
+                    }
+                    sr.Close(); // faili lugemise sulgemine
+                }
+            }
+            catch (Exception e)//veateade
+            {
+                Console.WriteLine("Ei ole olemas sellise pikkusega sõne.");  // veateade
+                Console.WriteLine(e.Message);   // veateade
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
